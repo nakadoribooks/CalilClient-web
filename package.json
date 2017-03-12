@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "CalilClient-web",
   "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack --watch"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nakadoribooks/CalilClient-web"
