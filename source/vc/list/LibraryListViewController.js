@@ -39,14 +39,15 @@ class LibraryListViewController {
   }
 
   _tapReload(event){
-    console.log(event)
-    console.log(this)
     this._dispatchLoadData()
   }
 
   _dispatchLoadData(){
-    let action = ActionCreator.loadLibraries();
-    store.dispatch(action);
+    let action = ActionCreator.loadLibraries().then((action)=>{
+      store.dispatch(action)
+    })
+
+    store.dispatch(ActionCreator.loadLibrariesAction())
   }
 
   _newState(state){
