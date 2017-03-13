@@ -4,9 +4,25 @@ import superagent from 'superagent'
 import superagentJsonp from 'superagent-jsonp'
 import config from '../../config.js'
 
-class ActionCreators{
+class ActionCreator{
 
-  static loadLibraries(prefName="秋田県") {
+  static loadLibraries(prefName="秋田県"){
+    return function (dispatch) {
+      return ActionCreator._loadLibraries(prefName).then(
+        libraryList => {
+          var loadedAction = Object.assign(LibraryListLoadedAction)
+          loadedAction.libraryList = libraryList
+          dispatch(loadedAction)
+        },
+        error => {
+          let errorAction = Object.assign(LibraryListFailLoadAction)
+          dispatch(errorAction)
+        }
+      );
+    };
+  }
+
+  static _loadLibraries(prefName) {
 
     var params = { appkey: config.API_KEY, pref: prefName, format: "json", callback: "f" };
 
@@ -16,27 +32,23 @@ class ActionCreators{
 
         // error
         if(err != null){
-          let errorAction = Object.assign(LibraryListFailLoadAction)
-          resolve(errorAction)
+          reject()
           return;
         }
 
         var list = res.body
         // wrong dictionary
         if (list == null){
-          let errorAction = Object.assign(LibraryListFailLoadAction)
-          resolve(errorAction)
+          reject()
           return;
         }
 
         // success
         var libraryList = Library.createList(list)
-        var loadedAction = Object.assign(LibraryListLoadedAction)
-        loadedAction.libraryList = libraryList
 
         // 時間かかっているてい
         setTimeout(function(){
-          resolve(loadedAction)
+          resolve(libraryList)
         }, 1000)
 
       })
@@ -50,4 +62,4 @@ class ActionCreators{
 
 }
 
-export default ActionCreators
+export default ActionCreator

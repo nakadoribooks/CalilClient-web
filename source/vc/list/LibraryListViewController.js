@@ -43,10 +43,7 @@ class LibraryListViewController {
   }
 
   _dispatchLoadData(){
-    let action = ActionCreator.loadLibraries().then((action)=>{
-      store.dispatch(action)
-    })
-
+    store.dispatch(ActionCreator.loadLibraries())
     store.dispatch(ActionCreator.loadLibrariesAction())
   }
 
