@@ -8,7 +8,7 @@ class ActionCreator{
 
   static loadLibraries(prefName="秋田県"){
     return function (dispatch) {
-      return ActionCreator._loadLibraries(prefName).then(
+      ActionCreator._loadLibraries(prefName).then(
         libraryList => {
           var loadedAction = Object.assign(LibraryListLoadedAction)
           loadedAction.libraryList = libraryList
